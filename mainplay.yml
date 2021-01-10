@@ -1,0 +1,12 @@
+---
+
+- hosts: standalone
+  become: yes
+  become_user: root
+  vars_files:
+    - global_vars/global_vars.yml
+  roles:
+    #- save-creds
+    #- install-was-base
+    #- create-profile
+    - restart-was-base

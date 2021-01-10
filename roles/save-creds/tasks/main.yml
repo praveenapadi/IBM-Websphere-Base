@@ -1,0 +1,5 @@
+---
+# tasks file for save-creds
+- include: save-creds.yml
+  tags:
+   - save-creds

@@ -1,0 +1,13 @@
+---
+
+- name: save credentials
+  become: yes
+  become_user: root
+  command: ./imutilsc saveCredential -url "{{ repository_url }}" -userName "{{ username }}" -userPassword "{{ password }}" -secureStorageFile "{{ storagefile_location }}"
+  args:
+    chdir: /opt/IBM/InstallationManager/eclipse/tools
+  register: save_creds
+- debug:
+    msg: "{{ save_creds.stdout_lines }}"
+
+

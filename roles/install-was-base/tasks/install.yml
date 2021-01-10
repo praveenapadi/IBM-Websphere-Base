@@ -1,0 +1,22 @@
+---
+
+- name: list available packages
+  become: yes
+  become_user: root
+  command: ./imcl listAvailablePackages -repositories "{{ repository_url }}" -secureStorageFile "{{storagefile_location }}"
+  register: packages
+  args:
+   chdir: "{{ imcl_path }}" 
+- debug:
+   msg: "{{ packages.stdout_lines }}"
+
+- name: Install WAS Base
+  become: yes
+  become_user: root
+  command: ./imcl install com.ibm.websphere.BASE.v90_9.0.0.20160526_1854 com.ibm.java.jdk.v8_8.0.3000.20160526_1317 -installationDirectory "{{ was_install_location }}" -repositories "{{ repository_url }}" -acceptLicense -secureStorageFile "{{ storagefile_location }}"
+  register: install
+  args:
+   chdir: "{{ imcl_path }}"
+- debug:
+    msg: "{{ install.stdout_lines }}"
+

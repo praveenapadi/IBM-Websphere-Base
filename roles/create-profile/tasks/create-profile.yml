@@ -1,0 +1,24 @@
+---
+
+- name: "Verify if Profile already exists"
+  stat:
+    path: "{{ was_install_location }}/profiles/{{ profile_name }}"
+  register: profile_already_exists
+
+- name: Is Standalone?
+  set_fact:
+    tpl_file: "unmanaged.rsp.j2"
+  when: ( is_standalone ) 
+
+- name: Generate Response file
+  template:
+    src: "{{ tpl_file }}"
+    dest: "{{ rsp_file }}"
+  when: profile_already_exists.stat.exists != true
+
+- name: "Create Was Profile"
+  command: "{{ was_install_location }}/bin/manageprofiles.sh -response {{ rsp_file }}"
+  register: cout
+  changed_when: ( cout.stdout.find('INSTCONFSUCCESS') != -1)
+  failed_when: ( cout.stdout.find('INSTCONFFAILED') != -1)
+  when: profile_already_exists.stat.exists != true

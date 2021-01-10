@@ -1,0 +1,13 @@
+---
+repository_url: "https://www-147.ibm.com/software/repositorymanager/com.ibm.websphere.BASE.v90"
+username: "xxxxxx"
+password: "xxxxx"
+storagefile_location: "/tmp/stfile.txt"
+imcl_path: "/opt/IBM/InstallationManager/eclipse/tools"
+was_install_location: "/opt/IBM/WebSphere/AppServer"
+appsvr_bin: "/opt/IBM/WebSphere/AppServer/bin"
+profile_name: "testsvr1"
+servername: server1
+logs_dir: "{{ was_install_location }}/logs"
+rsp_file: "{{ logs_dir }}/was_profile_node.rsp"
+is_standalone: "true" 

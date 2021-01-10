@@ -1,0 +1,29 @@
+---
+
+- name: Check if the process is running
+  command: "{{ was_install_location }}/profiles/{{ profile_name }}/bin/serverStatus.sh {{ servername }}"
+  register: running
+- debug:
+    msg: "{{ running.stdout_lines }}"
+
+- name: Restarting server as it is already started. 
+  command: "{{ item }}"
+  with_items:
+     - "{{ was_install_location }}/profiles/{{ profile_name }}/bin/stopServer.sh {{ servername }}"
+     - "{{ was_install_location }}/profiles/{{ profile_name }}/bin/startServer.sh {{ servername }}"
+  register: wasstop
+  when: running.stdout.find("stopped")  == -1
+#- debug: 
+#    msg: "{{ wasstop.stdout_lines }}"
+ 
+- name: Wait 10 seconds for SERVER to stop
+  pause:
+    seconds: 10
+ 
+- name: Starting JVM - it is currently in stopped state
+  command: "{{ was_install_location }}/profiles/{{ profile_name }}/bin/startServer.sh {{ servername }}"
+  register: wasstart
+  when: running.stdout.find("STARTED") == -1 
+#- debug:
+#    msg: "{{ wasstart.stdout_lines }}"
+

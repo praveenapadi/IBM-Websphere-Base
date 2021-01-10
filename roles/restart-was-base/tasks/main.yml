@@ -1,0 +1,5 @@
+---
+# tasks file for restart-was-base
+- include: restart-was.yml
+  tags:
+   - restart-was
